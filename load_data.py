@@ -48,9 +48,9 @@ def populate_db_from_json(json_file_path):
                     )
                     db.session.add(activity)
 
-                # Create Scan instance referencing user_email
+                # Create Scan instance referencing user id
                 scan = Scan(
-                    user_email=user.email,  # Reference the user's email
+                    user_id=user.id,  # Reference the user's id
                     activity_name=activity.activity_name,
                     scanned_at=datetime.fromisoformat(scan_data['scanned_at'])
                 )

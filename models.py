@@ -38,12 +38,12 @@ class Scan(db.Model):
     __tablename__ = 'scans'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_email = db.Column(db.String, db.ForeignKey('users.email', ondelete='CASCADE'), nullable=True, index=True)  # Changed to reference email
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)  # Numeric ID for performance
     activity_name = db.Column(db.String, db.ForeignKey('activities.activity_name', ondelete='CASCADE'), nullable=False)
     scanned_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user = db.relationship('User', backref='scans')
     activity = db.relationship('Activity', backref='scans')
 
     def __repr__(self):
-        return f'<Scan {self.user_email} at {self.activity_name}>'
-    
+        # Using email here as it is more readable and meaningful. identifying a scan by email can be clearer than using a numeric ID.
+        return f'<Scan {self.user.email} at {self.activity_name}>'

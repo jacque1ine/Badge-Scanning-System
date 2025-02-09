@@ -3,6 +3,7 @@ import os
 from models import db, User, Activity, Scan 
 from load_data import populate_db_from_json
 from routes.user_routes import user_bp
+from routes.scan_routes import scan_bp
 
 app = Flask(__name__)
 
@@ -16,6 +17,7 @@ with app.app_context():
     populate_db_from_json(os.path.join(os.path.abspath(os.getcwd()), 'data/example_data.json'))
 
 app.register_blueprint(user_bp)
+app.register_blueprint(scan_bp) 
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=3000) 
