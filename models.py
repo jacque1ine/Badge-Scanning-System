@@ -5,8 +5,8 @@ db = SQLAlchemy()
 
 class User(db.Model):
     __tablename__ = 'users'
-    
-    email = db.Column(db.String, primary_key=True, unique=True, nullable=False)  
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Unique ID for each user
+    email = db.Column(db.String, unique=True, nullable=False)  
     name = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=False)
     badge_code = db.Column(db.String, unique=True, nullable=True) 
