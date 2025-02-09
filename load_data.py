@@ -1,8 +1,8 @@
 # services/data_loader.py
 import json
 from datetime import datetime
+from sqlite3 import IntegrityError
 from models import db, User, Activity, Scan
-from sqlalchemy.exc import IntegrityError
 
 def populate_db_from_json(json_file_path):
     with open(json_file_path, 'r') as file:

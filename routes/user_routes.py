@@ -8,7 +8,7 @@ user_bp = Blueprint('user', __name__)
 
 @user_bp.route('/users', methods=['GET'])
 def get_users():
-    users = User.query.all()  # Retrieve all users from the database
+    users = User.query.all() 
     user_list = []
     
     for user in users:
@@ -31,15 +31,6 @@ def get_user_by_id(user_id):
     user = User.query.get(user_id)  
     if not user:
         abort(404, description="User not found.") 
-
-    scans = [
-        {
-            'activity_name': scan.activity_name,
-            'scanned_at': scan.scanned_at.isoformat(),
-            'activity_category': scan.activity.activity_category
-        }
-        for scan in user.scans
-    ]
 
     user_data = {
         'id': user.id, 
@@ -106,4 +97,4 @@ def update_user(user_id):
         'scans': user.all_user_scans
 
 
-    }), 200  #
+    }), 200 
