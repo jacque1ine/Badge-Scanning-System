@@ -1,6 +1,6 @@
 from sqlalchemy.orm import joinedload
 # routes/user_routes.py
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, abort
 from models import db, User
 
 user_bp = Blueprint('user', __name__)
@@ -33,3 +33,31 @@ def get_users():
         user_list.append(user_data)
     
     return jsonify(user_list)
+
+@user_bp.route('/users/<string:email>', methods=['GET'])
+def get_user_by_email(email):
+    # Fetch user by email
+    user = User.query.filter_by(email=email).first()
+    if not user:
+       abort(404, description="User not found.") 
+
+    # Prepare user data including scans
+    scans = [
+        {
+            'activity_name': scan.activity_name,
+            'scanned_at': scan.scanned_at.isoformat(),
+            'activity_category': scan.activity.activity_category
+        }
+        for scan in user.scans
+    ]
+
+    user_data = {
+        'email': user.email,
+        'name': user.name,
+        'badge_code': user.badge_code,
+        'phone': user.phone,
+        'updated_at': user.updated_at.isoformat(),
+        'scans': scans
+    }
+
+    return jsonify(user_data)  # Return specific user data
