@@ -28,7 +28,7 @@ class Scan(db.Model):
     __tablename__ = 'scans'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_email = db.Column(db.String, db.ForeignKey('users.email', ondelete='CASCADE'), nullable=True)  # Changed to reference email
+    user_email = db.Column(db.String, db.ForeignKey('users.email', ondelete='CASCADE'), nullable=True, index=True)  # Changed to reference email
     activity_name = db.Column(db.String, db.ForeignKey('activities.activity_name', ondelete='CASCADE'), nullable=False)
     scanned_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user = db.relationship('User', backref='scans')
