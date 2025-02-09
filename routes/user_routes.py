@@ -12,14 +12,6 @@ def get_users():
     user_list = []
     
     for user in users:
-        scans = [
-            {
-                'activity_name': scan.activity_name,
-                'scanned_at': scan.scanned_at.isoformat(),
-                'activity_category': scan.activity.activity_category  # Load activity category
-            }
-            for scan in user.scans
-        ]
         
         user_data = {
             'id': user.id,  
@@ -28,7 +20,7 @@ def get_users():
             'badge_code': user.badge_code,
             'phone': user.phone,
             'updated_at': user.updated_at.isoformat(),
-            'scans': scans
+            'scans': user.all_user_scans
         }
         user_list.append(user_data)
 
@@ -56,7 +48,7 @@ def get_user_by_id(user_id):
         'badge_code': user.badge_code,
         'phone': user.phone,
         'updated_at': user.updated_at.isoformat(),
-        'scans': scans
+        'scans': user.all_user_scans
     }
 
     return jsonify(user_data), 200  
@@ -92,15 +84,7 @@ def update_user(user_id):
     user.email = new_email  
     user.badge_code = new_badge_code 
     user.updated_at = datetime.now()  
-    scans = [
-        {
-            'activity_name': scan.activity_name,
-            'scanned_at': scan.scanned_at.isoformat(),
-            'activity_category': scan.activity.activity_category
-        }
-        for scan in user.scans
-    ]
-
+   
     # Commit the changes to the database
     try:
         db.session.commit()
@@ -115,6 +99,7 @@ def update_user(user_id):
         'badge_code': user.badge_code,
         'phone': user.phone,
         'updated_at': user.updated_at.isoformat(),
-        'scans': scans
+        'scans': user.all_user_scans
+
 
     }), 200  #
