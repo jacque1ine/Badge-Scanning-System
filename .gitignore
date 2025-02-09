@@ -24,3 +24,5 @@ Thumbs.db
 
 #pycache 
 __pycache__
+
+*.db
