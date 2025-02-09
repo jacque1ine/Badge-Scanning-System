@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 import os
 from models import db, User, Activity, Scan 
 from load_data import populate_db_from_json
