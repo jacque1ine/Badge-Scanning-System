@@ -1,13 +1,23 @@
 # routes/scan_routes.py
 from datetime import datetime
 from flask import Blueprint, jsonify, abort, request
-from models import db, User, Activity, Scan
+from models.models import db, User, Activity, Scan
 from sqlalchemy import func
 
 scan_bp = Blueprint('scan', __name__)
 
 @scan_bp.route('/scan/<string:badge_code>', methods=['PUT'])
 def add_scan(badge_code):
+    """
+    Add a new scan for a user associated with the provided badge code.
+
+    Args:
+        badge_code (str): The badge code of the user.
+
+    Returns:
+        JSON response containing scan details, or raises a 404 error if the user
+        is not found, 400 if the required data is missing, and 500 for other errors.
+    """
     user = User.query.filter_by(badge_code=badge_code).first()
     if not user:
         abort(404, description="User not found with the provided badge code.")
@@ -51,6 +61,17 @@ def add_scan(badge_code):
 
 @scan_bp.route('/scans', methods=['GET'])
 def get_scan_data():
+    """
+    Retrieve aggregated scan data based on optional filters.
+
+    Query Parameters:
+        min_frequency (int): Minimum number of scans to be included in the result.
+        max_frequency (int): Maximum number of scans to be included in the result.
+        activity_category (str): The category of the activity to filter by.
+
+    Returns:
+        JSON response containing a list of activities and their scan frequencies.
+    """
     min_frequency = request.args.get('min_frequency', default=0, type=int)
     max_frequency = request.args.get('max_frequency', default=None, type=int)
     activity_category = request.args.get('activity_category', default=None, type=str)

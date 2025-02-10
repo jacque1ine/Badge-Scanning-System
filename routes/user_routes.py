@@ -2,12 +2,26 @@
 from datetime import datetime
 from sqlite3 import IntegrityError
 from flask import Blueprint, jsonify, abort, request
-from models import db, User, Scan
+from models.models import db, User
 
 user_bp = Blueprint('user', __name__)
 
 @user_bp.route('/users', methods=['GET'])
 def get_users():
+    """
+    Retrieve a list of all users from the database.
+
+    Returns:
+        JSON response containing a list of all users and their data.
+        Each user object includes:
+            - id: Unique identifier of the user
+            - email: User's email address
+            - name: User's name
+            - badge_code: User's badge code (if applicable)
+            - phone: User's phone number
+            - updated_at: Timestamp of the last update
+            - scans: List of scans associated with the user
+    """
     users = User.query.all() 
     user_list = []
     
@@ -28,6 +42,24 @@ def get_users():
 
 @user_bp.route('/users/<int:user_id>', methods=['GET'])
 def get_user_by_id(user_id):
+    """
+    Retrieve a specific user by their unique identifier (ID).
+
+    Args:
+        user_id (int): The ID of the user to retrieve.
+
+    Returns:
+        JSON response containing the user's data. If the user is not found,
+        it aborts and returns a 404 error.
+        User data includes:
+            - id: Unique identifier of the user
+            - email: User's email address
+            - name: User's name
+            - badge_code: User's badge code (if applicable)
+            - phone: User's phone number
+            - updated_at: Timestamp of the last update
+            - scans: List of scans associated with the user
+    """
     user = User.query.get(user_id)  
     if not user:
         abort(404, description="User not found.") 
@@ -46,6 +78,24 @@ def get_user_by_id(user_id):
 
 @user_bp.route('/users/<int:user_id>', methods=['PUT'])
 def update_user(user_id):
+    """
+    Update a specific user's data.
+
+    Args:
+        user_id (int): The ID of the user to update.
+
+    Request Body:
+        JSON containing fields to update. Supported fields include:
+            - name (str): The new name for the user.
+            - phone (str): The new phone number for the user.
+            - email (str): The new email for the user (must be unique).
+            - badge_code (str): The new badge code for the user (must be unique if provided).
+
+    Returns:
+        JSON response containing the updated user's data.
+        If the user is not found, it aborts and returns a 404 error.
+        If email or badge_code is not unique during the update, it returns a 400 error.
+    """
     user = User.query.get(user_id)
     if not user:
         abort(404, description="User not found.")  # User must exist

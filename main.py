@@ -1,6 +1,6 @@
 from flask import Flask
 import os
-from models import db, User, Activity, Scan 
+from models.models import db, User, Activity, Scan 
 from load_data import populate_db_from_json
 from routes.user_routes import user_bp
 from routes.scan_routes import scan_bp
