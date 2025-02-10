@@ -9,7 +9,6 @@ scan_bp = Blueprint('scan', __name__)
 def add_scan(badge_code):
     user = User.query.filter_by(badge_code=badge_code).first()
     if not user:
-        app.logger.warning(f"Scan attempt with non-existent badge code: {badge_code}")
         abort(404, description="User not found with the provided badge code.")
     
     data = request.get_json()
