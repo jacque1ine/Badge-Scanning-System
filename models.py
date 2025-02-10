@@ -6,10 +6,10 @@ db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Unique ID for each user
-    email = db.Column(db.String, unique=True, nullable=False)  
+    email = db.Column(db.String, unique=True, nullable=False, index=True)  
     name = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=False)
-    badge_code = db.Column(db.String, unique=True, nullable=True) 
+    badge_code = db.Column(db.String, unique=True, nullable=True, index=True) 
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)  
 
     def __repr__(self):
