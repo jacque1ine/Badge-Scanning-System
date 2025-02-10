@@ -1,4 +1,5 @@
 # routes/scan_routes.py
+from datetime import datetime
 from flask import Blueprint, jsonify, abort, request
 from models import db, User, Activity, Scan
 from sqlalchemy import func
@@ -27,12 +28,12 @@ def add_scan(badge_code):
         db.session.add(activity)
 
     scan = Scan(
-        user_id=user.id,  # Reference the user's ID
+        user_id=user.id,  
         activity_name=activity.activity_name,
-        scanned_at=datetime.utcnow()
+        scanned_at=datetime.now()
     )
     db.session.add(scan)
-    user.updated_at = datetime.utcnow()
+    user.updated_at = datetime.now()
 
     try:
         db.session.commit()
