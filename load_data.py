@@ -10,6 +10,10 @@ def populate_db_from_json(json_file_path):
     Args:
         json_file_path (str): The file path to the JSON file containing user data.
     """
+    if User.query.count() > 0 or Activity.query.count() > 0 or Scan.query.count() > 0:
+        print("Database is not empty. Data loading skipped.")
+        return  # Exit if there are existing records
+    
     with open(json_file_path, 'r') as file:
         users_data = json.load(file)
 
