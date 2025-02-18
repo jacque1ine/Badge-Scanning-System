@@ -195,11 +195,11 @@ The API will start running at `http://localhost:3000`.
     - `404 Not Found`: Requested resource does not exist.
     - `500 Internal Server Error`: An unexpected error occurred.
 
-### Additional Notes
+### Next Steps
 
-- **Validation**: Ensure all request data is validated before processing. Handle unexpected keys within the JSON request bodies to improve robustness.
-- **Performance Considerations**: Utilize indexing on frequently queried fields to enhance query performance.
-- **Eager Loading**: Consider using eager loading techniques (`joinedload` in SQLAlchemy) for related data if needed to optimize the performance of retrieving scans with users.
+- **Validation**: Ensuring all request data is validated before processing. Handle unexpected keys within the JSON request bodies to improve robustness.
+- **Performance Considerations**: Utilizing indexing on frequently queried fields to enhance query performance.
+- **Eager Loading**: Using eager loading techniques (`joinedload` in SQLAlchemy) for related data if needed to optimize the performance of retrieving scans with users.
 
 # 🧐 Assumptions and Challenges
 
